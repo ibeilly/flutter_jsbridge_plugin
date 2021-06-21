@@ -59,7 +59,7 @@ class _MyAppState extends State<MyApp> {
             initialUrl: "https://www.baidu.com?timeStamp=${new DateTime.now().millisecondsSinceEpoch}",
             javascriptMode: JavascriptMode.unrestricted,
             onWebViewCreated: (WebViewController webViewController) async {
-              _jsBridge.loadJs(webViewController);
+              _jsBridge.loadJs(webViewController.evaluateJavascript);
               _controller.complete(webViewController);
               _jsBridge.registerHandler("getToken", onCallBack: (data, func) {
                 // return token to js
@@ -82,6 +82,7 @@ class _MyAppState extends State<MyApp> {
             onPageStarted: (url) {
               _jsBridge.init();
             },
+            debuggingEnabled: true,
           )),
     );
   }

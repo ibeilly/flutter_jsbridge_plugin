@@ -1,17 +1,19 @@
 import 'dart:io';
 
-import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:convert' as convert;
 import 'package:sprintf/sprintf.dart';
 
 import 'init_script.dart';
 import 'js_obj.dart';
 
+// Future<String> evaluateJavascript(String javascriptString)
+typedef EvaluateJavascript = Future<String> Function(String javascriptString);
+
 typedef CallBackFunction = void Function(dynamic data);
 typedef BridgeHandler = void Function(dynamic data, CallBackFunction function);
 
 class JsBridge {
-  WebViewController _webViewController;
+  EvaluateJavascript _webViewController;
   Map<String, CallBackFunction> _callbacks = Map();
   Map<String, BridgeHandler> _handlers = Map();
   int _uniqueId = 0;
@@ -21,7 +23,7 @@ class JsBridge {
   String _dartToJs =
       "javascript:WebViewJavascriptBridge._handleMessageFromNative('%s');";
 
-  void loadJs(WebViewController controller) {
+  void loadJs(EvaluateJavascript controller) {
     _webViewController = controller;
     init();
   }
@@ -53,7 +55,6 @@ class JsBridge {
         for (JsMsg msg in list) {
           print(msg);
           if (msg.responseId != null) {
-
           } else {
             CallBackFunction function;
             if (msg.callbackId != null) {
@@ -63,7 +64,8 @@ class JsBridge {
                   callbackMsg.responseId = msg.callbackId;
                   callbackMsg.responseData = convert.jsonEncode(data);
                   // 发送
-                  _loadJs(sprintf(_dartToJs, [_replaceJson(callbackMsg.toJson())]));
+                  _loadJs(
+                      sprintf(_dartToJs, [_replaceJson(callbackMsg.toJson())]));
                 };
               }
             } else {
@@ -123,6 +125,6 @@ class JsBridge {
   }
 
   void _loadJs(String script) {
-    _webViewController.evaluateJavascript(script);
+    _webViewController(script);
   }
 }

@@ -31,6 +31,8 @@ android {
         disable 'InvalidPackage'
     }
 
+    ndkVersion "21.4.7075529" // e.g.,  ndkVersion '21.3.6528147'
+
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "dev.epoll.flutterjsbridgeplugin_example"
