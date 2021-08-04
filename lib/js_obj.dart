@@ -26,12 +26,7 @@ class JsMsg {
   static List<JsMsg> fromList(List list) {
     List<JsMsg> msgList = [];
     for (Map json in list) {
-      JsMsg msg = JsMsg();
-      msg.callbackId = json["callbackId"];
-      msg.responseId = json["responseId"];
-      msg.responseData = convert.jsonEncode(json["responseData"]);
-      msg.data = convert.jsonEncode(json["data"]);
-      msg.handlerName = json["handlerName"];
+      JsMsg msg = JsMsg.formJson(json);
       msgList.add(msg);
     }
     return msgList;
@@ -41,8 +36,10 @@ class JsMsg {
     JsMsg msg = JsMsg();
     msg.callbackId = json["callbackId"];
     msg.responseId = json["responseId"];
-    msg.responseData = convert.jsonEncode(json["responseData"]);
-    msg.data = convert.jsonEncode(json["data"]);
+    var responseData = json["responseData"];
+    msg.responseData = responseData is String ? responseData : convert.jsonEncode(responseData);
+    var data = json["data"];
+    msg.data = data is String ? data : convert.jsonEncode(data);
     msg.handlerName = json["handlerName"];
     return msg;
   }
