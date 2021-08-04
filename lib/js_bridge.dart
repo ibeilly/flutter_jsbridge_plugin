@@ -7,14 +7,14 @@ import 'init_script.dart';
 import 'js_obj.dart';
 
 // Future<String> evaluateJavascript(String javascriptString)
-typedef EvaluateJavascript = Future<String> Function(String javascriptString);
+typedef EvaluateJavascript = Future<String> Function(String? javascriptString);
 
 typedef CallBackFunction = void Function(dynamic data);
-typedef BridgeHandler = void Function(dynamic data, CallBackFunction function);
+typedef BridgeHandler = void Function(dynamic data, CallBackFunction? function);
 
 class JsBridge {
-  EvaluateJavascript _webViewController;
-  Map<String, CallBackFunction> _callbacks = Map();
+  EvaluateJavascript? _webViewController;
+  Map<String?, CallBackFunction> _callbacks = Map();
   Map<String, BridgeHandler> _handlers = Map();
   int _uniqueId = 0;
   static final String _protocolScheme = "jsbridge://";
@@ -52,11 +52,11 @@ class JsBridge {
         List list = JsMsg.fromList(convert
             .jsonDecode(Uri.decodeComponent(url).replaceAll(_returnData, "")));
         print(list);
-        for (JsMsg msg in list) {
+        for (JsMsg msg in list as Iterable<JsMsg>) {
           print(msg);
           if (msg.responseId != null) {
           } else {
-            CallBackFunction function;
+            CallBackFunction? function;
             if (msg.callbackId != null) {
               if (msg.callbackId != null) {
                 function = (dynamic data) {
@@ -71,9 +71,9 @@ class JsBridge {
             } else {
               function = (dynamic data) {};
             }
-            BridgeHandler handler;
+            BridgeHandler? handler;
             if (msg.handlerName != null) {
-              handler = _handlers[msg.handlerName];
+              handler = _handlers[msg.handlerName!];
             }
             if (handler != null) {
               handler.call(msg.data, function);
@@ -91,7 +91,7 @@ class JsBridge {
   }
 
   void callHandler(String handlerName,
-      {dynamic data, CallBackFunction onCallBack}) {
+      {dynamic data, CallBackFunction? onCallBack}) {
     JsRequest request = JsRequest();
     request.handlerName = handlerName;
     if (data != null) {
@@ -109,7 +109,7 @@ class JsBridge {
   }
 
   void registerHandler(String handlerName,
-      {dynamic data, BridgeHandler onCallBack}) {
+      {dynamic data, BridgeHandler? onCallBack}) {
     if (onCallBack != null) {
       _handlers[handlerName] = onCallBack;
     }
@@ -124,7 +124,7 @@ class JsBridge {
     return json;
   }
 
-  void _loadJs(String script) {
-    _webViewController(script);
+  void _loadJs(String? script) {
+    _webViewController!(script);
   }
 }
