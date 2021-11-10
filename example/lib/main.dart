@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:flutter_jsbridge_plugin/flutterjsbridgeplugin.dart';
-import 'package:flutter_jsbridge_plugin/js_bridge.dart';
+import 'package:flutter_jsbridge_x/flutterjsbridgeplugin.dart';
+import 'package:flutter_jsbridge_x/js_bridge.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 void main() {

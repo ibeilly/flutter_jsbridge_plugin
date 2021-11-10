@@ -10,3 +10,8 @@ fix bug
 
 ## 1.0.0
 null-safety
+
+## 1.1.0
+fix JsMsg fromList error
+
+fix example build error

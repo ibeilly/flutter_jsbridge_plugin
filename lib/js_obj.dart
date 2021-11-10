@@ -25,7 +25,7 @@ class JsMsg {
 
   static List<JsMsg> fromList(List list) {
     List<JsMsg> msgList = [];
-    for (Map json in list as Iterable<Map<dynamic, dynamic>>) {
+    for (Map<dynamic, dynamic> json in list) {
       JsMsg msg = JsMsg.formJson(json);
       msgList.add(msg);
     }
@@ -37,7 +37,9 @@ class JsMsg {
     msg.callbackId = json["callbackId"];
     msg.responseId = json["responseId"];
     var responseData = json["responseData"];
-    msg.responseData = responseData is String ? responseData : convert.jsonEncode(responseData);
+    msg.responseData = responseData is String
+        ? responseData
+        : convert.jsonEncode(responseData);
     var data = json["data"];
     msg.data = data is String ? data : convert.jsonEncode(data);
     msg.handlerName = json["handlerName"];
