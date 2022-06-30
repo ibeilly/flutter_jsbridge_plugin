@@ -15,3 +15,6 @@ null-safety
 fix JsMsg fromList error
 
 fix example build error
+
+## 1.2.0
+fix iOS pod err
