@@ -3,7 +3,7 @@
 # Run `pod lib lint flutterjsbridgeplugin.podspec' to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'flutter_jsbridge_plugin'
+  s.name             = 'flutter_jsbridge_x'
   s.version          = '0.0.1'
   s.summary          = 'A JsBridge Flutter plugin.'
   s.description      = <<-DESC
